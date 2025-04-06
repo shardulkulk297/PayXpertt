@@ -63,7 +63,7 @@ public class EmployeeDAO {
             String sql = "Select * from Employee";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
+            while(rs.next()){
                 Employee emp = new Employee();
 
                 emp.setEmployeeId(rs.getInt("EmployeeId"));
@@ -75,7 +75,7 @@ public class EmployeeDAO {
 
                 employees.add(emp);
             }
-            else{
+            if(employees.isEmpty()){
                 throw new EmployeeNotFoundException("SOMETHING WENT Wrong while getting employees");
             }
             con.close();
@@ -112,6 +112,7 @@ public class EmployeeDAO {
             else{
                 throw new EmployeeNotFoundException("Something went wrong while adding employee");
             }
+            conn.close();
 
         }
         catch(SQLException e)
@@ -153,6 +154,7 @@ public class EmployeeDAO {
             else{
                 throw new EmployeeNotFoundException("Employee not found for id: " + employeeData.getEmployeeId());
             }
+            con.close();
 
         }
         catch(SQLException e)
@@ -166,7 +168,7 @@ public class EmployeeDAO {
     public void RemoveEmployee(int EmployeeId) throws EmployeeNotFoundException{
         try{
             Connection con = DBConnection.getConnection();
-            String sql = "DELETE FROM EMPLOYEES WHERE EmployeeId = ?";
+            String sql = "DELETE FROM Employees WHERE EmployeeId = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, EmployeeId);
             int rowsAffected = stmt.executeUpdate();
@@ -177,6 +179,7 @@ public class EmployeeDAO {
             else{
                 throw new EmployeeNotFoundException("Employee ID NOT FOUND: "+ EmployeeId);
             }
+            con.close();
 
         }
         catch(SQLException e){

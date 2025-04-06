@@ -44,6 +44,7 @@ public class PayrollDAO {
             payroll.setBasicSalary(basicSalary);
             payroll.setDeductions(deductions);
             payroll.setNetSalary(netSalary);
+            con.close();
 
         }
         catch(SQLException e){
@@ -79,6 +80,7 @@ public class PayrollDAO {
             else{
                 throw new PayrollGenerationException("Payroll was not able to be generated");
             }
+            con.close();
 
 
 
@@ -116,6 +118,7 @@ public class PayrollDAO {
                 throw new PayrollGenerationException("SOMETHING WENT WRONG");
 
             }
+            con.close();
 
 
         }
@@ -152,6 +155,7 @@ public class PayrollDAO {
             if(payrolls.isEmpty()){
                 throw new PayrollGenerationException("SOMETHING WENT WRONG");
             }
+            con.close();
 
         }
         catch(SQLException e){
