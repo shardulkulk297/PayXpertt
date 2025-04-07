@@ -11,7 +11,9 @@ public class TestDBConnection {
         }
         catch(SQLException e)
         {
+            e.getMessage();
             e.printStackTrace();
+
         }
     }
 }
