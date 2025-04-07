@@ -11,10 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PayrollDAO {
+    private Connection con;
+    public PayrollDAO(){
+        try{
+            con = DBConnection.getConnection();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+
     public Payroll GeneratePayroll(int employeeId, LocalDate localStart, LocalDate localEnd, double basicSalary, double deductions, double netSalary) throws PayrollGenerationException {
         Payroll payroll = null;
         try{
-            Connection con = DBConnection.getConnection();
+
             String sql = "INSERT INTO Payroll (employeeId, PayPeriodStartDate, PayPeriodEndDate, basicSalary, deductions, netSalary) VALUES(?,?,?,?,?,?)";
             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, employeeId);
@@ -59,7 +70,7 @@ public class PayrollDAO {
 
         Payroll payroll = null;
         try{
-            Connection con = DBConnection.getConnection();
+
             String sql = "Select * FROM Payroll WHERE PayrollID = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, payrollId);
@@ -97,7 +108,7 @@ public class PayrollDAO {
         Payroll payroll = null;
         List<Payroll> payrolls = new ArrayList<>();
         try{
-            Connection con = DBConnection.getConnection();
+
             String sql = "Select * from Payroll WHERE EmployeeId = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, employeeId);
@@ -133,7 +144,7 @@ public class PayrollDAO {
         List<Payroll> payrolls = new ArrayList<>();
 
         try{
-            Connection con = DBConnection.getConnection();
+
             String sql = "SELECT * FROM Payroll WHERE PayPeriodStartDate >= ? AND PayPeriodEndDate <= ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setDate(1, new Date(startDate.getTime()));

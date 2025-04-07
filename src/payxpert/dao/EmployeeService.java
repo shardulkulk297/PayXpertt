@@ -1,5 +1,6 @@
 package payxpert.dao;
 
+import payxpert.exception.DatabaseConnectionException;
 import payxpert.exception.EmployeeNotFoundException;
 import payxpert.model.Employee;
 
@@ -7,7 +8,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class EmployeeService implements IEmployeeService {
-    private EmployeeDAO employeeDAO = new EmployeeDAO();
+        private EmployeeDAO employeeDAO = new EmployeeDAO();
+
     @Override
     public Employee GetEmployeeById(int employeeId) throws EmployeeNotFoundException  {
         return employeeDAO.GetEmployeeById(employeeId);

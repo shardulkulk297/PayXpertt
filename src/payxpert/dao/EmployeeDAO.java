@@ -10,21 +10,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeDAO {
+
+    private Connection con;
+
+    public EmployeeDAO(){
+        try{
+            con = DBConnection.getConnection();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
     public Employee GetEmployeeById(int employeeId) throws EmployeeNotFoundException {
 
 
 
         Employee emp = null;
-        Connection con = null;
+
         try{
             if(employeeId == 0){
                 throw new EmployeeNotFoundException("Employee ID Can't be 0");
             }
-            con = DBConnection.getConnection();
             String query = "Select * from Employees WHERE employeeId = ?";
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setInt(1, employeeId);
-
             ResultSet rs = stmt.executeQuery();
 
             if(rs.next())
@@ -59,7 +69,6 @@ public class EmployeeDAO {
         List<Employee> employees = new ArrayList<>();
 
         try{
-            Connection con = DBConnection.getConnection();
             String sql = "Select * from Employee";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
@@ -87,12 +96,14 @@ public class EmployeeDAO {
 
     }
     public void AddEmployee(Employee EmployeeData) throws EmployeeNotFoundException {
-
+        if(EmployeeData == null){
+            throw new EmployeeNotFoundException("NULL DATA");
+        }
 
         try{
-            Connection conn = DBConnection.getConnection();
+
             String sql = "Insert into Employee (EmployeeId, FirstName, LastName, DateOfBirth, Gender, Email, PhoneNumber, Address, Position, JoiningDate, TerminationDate) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
+            PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, EmployeeData.getEmployeeId());
             stmt.setString(2, EmployeeData.getFirstName());
             stmt.setString(3, EmployeeData.getLastName());
@@ -112,7 +123,7 @@ public class EmployeeDAO {
             else{
                 throw new EmployeeNotFoundException("Something went wrong while adding employee");
             }
-            conn.close();
+            con.close();
 
         }
         catch(SQLException e)
@@ -124,9 +135,10 @@ public class EmployeeDAO {
 
     }
     public void UpdateEmployee(Employee employeeData) throws EmployeeNotFoundException{
-
+        if(employeeData == null){
+            throw new EmployeeNotFoundException("NULL DATA");
+        }
         try{
-            Connection con = DBConnection.getConnection();
             String sql = "UPDATE Employee SET FirstName = ?, LastName = ?, DateOfBirth = ?, Gender = ?, Email = ?, PhoneNumber = ?, Address = ?, Position = ?, JoiningDate = ?, TerminationDate = ? WHERE EmployeeID = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
 
@@ -166,8 +178,10 @@ public class EmployeeDAO {
 
     }
     public void RemoveEmployee(int EmployeeId) throws EmployeeNotFoundException{
+        if(EmployeeId == 0 || EmployeeId < 0){
+            throw new EmployeeNotFoundException("Employee ID should not be 0 OR Negative");
+        }
         try{
-            Connection con = DBConnection.getConnection();
             String sql = "DELETE FROM Employees WHERE EmployeeId = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, EmployeeId);

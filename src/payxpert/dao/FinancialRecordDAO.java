@@ -15,6 +15,16 @@ import java.util.Date;
 import java.util.List;
 
 public class FinancialRecordDAO {
+    private Connection con;
+    public FinancialRecordDAO(){
+        try{
+            con = DBConnection.getConnection();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
     public void AddFinancialRecord(int EmployeeId, String description, double amount, String recordType) throws FinancialRecordException{
         // Edge Case: Check for null/empty description
         if (description == null || description.trim().isEmpty()) {
@@ -41,7 +51,7 @@ public class FinancialRecordDAO {
 
         try{
 
-            Connection con = DBConnection.getConnection();
+
             String sql = "Insert into FinancialRecord(EmployeeId, RecordDate, Description, Amount, recordType) VALUES(?, ?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, EmployeeId);
@@ -76,7 +86,7 @@ public class FinancialRecordDAO {
         }
         FinancialRecord record = null;
         try{
-            Connection con = DBConnection.getConnection();
+
             String sql = "Select * from FinancialRecord WHERE recordId = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, recordId);
@@ -113,7 +123,7 @@ public class FinancialRecordDAO {
         FinancialRecord record = null;
         List<FinancialRecord> records = new ArrayList<>();
         try{
-            Connection con = DBConnection.getConnection();
+
             String sql = "Select * from FinancialRecord WHERE EmployeeID = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, EmployeeId);
@@ -151,7 +161,7 @@ public class FinancialRecordDAO {
         List<FinancialRecord> records = new ArrayList<>();
 
         try{
-            Connection con = DBConnection.getConnection();
+
             String sql = "SELECT * FROM FinancialRecord WHERE RecordDate = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setDate(1, new java.sql.Date(recordDate.getTime()));

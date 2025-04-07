@@ -1,5 +1,7 @@
 package payxpert.util;
 
+import payxpert.exception.DatabaseConnectionException;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -26,6 +28,7 @@ public class DBConnection {
         catch (IOException e)
         {
             e.printStackTrace();
+
         }
         String URL = prop.getProperty("URL");
         String USER = prop.getProperty("User");

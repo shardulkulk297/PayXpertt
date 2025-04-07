@@ -14,6 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaxDAO {
+    private Connection con;
+    public TaxDAO(){
+        try{
+            con = DBConnection.getConnection();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
     public double CalculateTax(int employeeId, int taxYear) throws TaxCalculationException {
 
         Tax tax = null;
@@ -21,7 +31,7 @@ public class TaxDAO {
         double taxableIncome = 0;
         try{
 
-            Connection con = DBConnection.getConnection();
+
             String sql = "Select * from Payroll WHERE EmployeeId = ? AND YEAR(PayPeriodStartDate) = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
@@ -67,7 +77,7 @@ public class TaxDAO {
     public Tax GetTaxById(int taxId) throws TaxCalculationException{
         Tax tax = null;
         try{
-            Connection con = DBConnection.getConnection();
+
             String sql = "Select * from Tax WHERE TaxId = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, taxId);
@@ -102,7 +112,7 @@ public class TaxDAO {
         Tax tax = null;
         List<Tax> taxes = new ArrayList<>();
         try{
-            Connection con = DBConnection.getConnection();
+
             String sql = "SELECT * FROM Tax WHERE EmployeeId = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, employeeId);
@@ -139,7 +149,7 @@ public class TaxDAO {
         Tax tax = null;
         List<Tax> taxes = new ArrayList<>();
         try{
-            Connection con = DBConnection.getConnection();
+
             String sql = "SELECT * FROM Tax WHERE TaxYear = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, taxYear);
