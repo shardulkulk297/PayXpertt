@@ -19,6 +19,20 @@ public class Employee {
     private Date TerminationDate;
 
     public Employee(){}
+    public Employee(String firstName, String lastName, Date dateOfBirth,
+                    String gender, String email, int phoneNumber, String address,
+                    String position, Date joiningDate, Date terminationDate) {
+        this.FirstName = firstName;
+        this.LastName = lastName;
+        this.DateOfBirth = dateOfBirth;
+        this.Gender = gender;
+        this.Email = email;
+        this.PhoneNumber = phoneNumber;
+        this.Address = address;
+        this.Position = position;
+        this.JoiningDate = joiningDate;
+        this.TerminationDate = terminationDate;
+    }
 
     //Getter Functions
     public int getEmployeeId(){
@@ -42,6 +56,7 @@ public class Employee {
     public int getPhoneNumber(){
         return PhoneNumber;
     }
+
     public String getAddress(){
         return Address;
     }

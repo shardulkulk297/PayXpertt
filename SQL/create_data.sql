@@ -24,7 +24,7 @@ Create table Payroll(
     OvertimePay DECIMAL(10,2) NOT NULL,
     Deductions DECIMAL(10,2) NOT NULL,
     NetSalary DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY(Employee_id) REFERENCES Employee(Employee_id)
+    FOREIGN KEY(Employee_id) REFERENCES Employee(Employee_id) ON DELETE CASCADE
 );
 Create table Tax(
     TaxID INT PRIMARY KEY AUTO_INCREMENT,
@@ -32,7 +32,7 @@ Create table Tax(
     TaxYear YEAR NOT NULL,
     TaxableIncome DECIMAL(10,2) NOT NULL,
     TaxAmount DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY(Employee_id) REFERENCES Employee(Employee_id)
+    FOREIGN KEY(Employee_id) REFERENCES Employee(Employee_id) ON DELETE CASCADE
 );
 
 Create table FinancialRecord(
@@ -42,7 +42,7 @@ Create table FinancialRecord(
     Description VARCHAR(255) NOT NULL,
     Amount DECIMAL(10,2) NOT NULL,
     RecordType ENUM("income", "expense", "tax payment", "other") NOT NULL,
-    FOREIGN KEY(Employee_id) REFERENCES Employee(Employee_id)
+    FOREIGN KEY(Employee_id) REFERENCES Employee(Employee_id) ON DELETE CASCADE
 )
 
 

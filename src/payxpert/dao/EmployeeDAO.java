@@ -32,7 +32,7 @@ public class EmployeeDAO {
             if(employeeId == 0){
                 throw new EmployeeNotFoundException("Employee ID Can't be 0");
             }
-            String query = "Select * from Employees WHERE employeeId = ?";
+            String query = "Select * from Employees WHERE EmployeeID = ?";
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setInt(1, employeeId);
             ResultSet rs = stmt.executeQuery();
@@ -102,19 +102,22 @@ public class EmployeeDAO {
 
         try{
 
-            String sql = "Insert into Employee (EmployeeId, FirstName, LastName, DateOfBirth, Gender, Email, PhoneNumber, Address, Position, JoiningDate, TerminationDate) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "Insert into Employee (FirstName, LastName, DateOfBirth, Gender, Email, PhoneNumber, Address, Position, JoiningDate, TerminationDate) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setInt(1, EmployeeData.getEmployeeId());
-            stmt.setString(2, EmployeeData.getFirstName());
-            stmt.setString(3, EmployeeData.getLastName());
-            stmt.setDate(4, new Date(EmployeeData.getDateOfBirth().getTime()));
-            stmt.setString(5, EmployeeData.getGender());
-            stmt.setString(6, EmployeeData.getEmail());
-            stmt.setInt(7, EmployeeData.getPhoneNumber());
-            stmt.setString(8, EmployeeData.getAddress());
-            stmt.setString(9, EmployeeData.getPosition());
-            stmt.setDate(10, new Date(EmployeeData.getJoiningDate().getTime()));
-            stmt.setDate(11, new Date(EmployeeData.getTerminationDate().getTime()));
+            stmt.setString(1, EmployeeData.getFirstName());
+            stmt.setString(2, EmployeeData.getLastName());
+            stmt.setDate(3, new Date(EmployeeData.getDateOfBirth().getTime()));
+            stmt.setString(4, EmployeeData.getGender());
+            stmt.setString(5, EmployeeData.getEmail());
+            stmt.setInt(6, EmployeeData.getPhoneNumber());
+            stmt.setString(7, EmployeeData.getAddress());
+            stmt.setString(8, EmployeeData.getPosition());
+            stmt.setDate(9, new Date(EmployeeData.getJoiningDate().getTime()));
+            if (EmployeeData.getTerminationDate() != null) {
+                stmt.setDate(10, new Date(EmployeeData.getTerminationDate().getTime()));
+            } else {
+                stmt.setNull(10, java.sql.Types.DATE);
+            }
             int rowsAdded = stmt.executeUpdate ();
 
             if(rowsAdded!=0){
@@ -182,7 +185,7 @@ public class EmployeeDAO {
             throw new EmployeeNotFoundException("Employee ID should not be 0 OR Negative");
         }
         try{
-            String sql = "DELETE FROM Employees WHERE EmployeeId = ?";
+            String sql = "DELETE FROM Employee WHERE EmployeeID = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, EmployeeId);
             int rowsAffected = stmt.executeUpdate();
