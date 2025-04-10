@@ -44,7 +44,7 @@ public class PayrollDAO {
         Payroll payroll = null;
         try{
 
-            String sql = "INSERT INTO Payroll (employeeId, PayPeriodStartDate, PayPeriodEndDate, basicSalary, OvertimePay, deductions, netSalary) VALUES(?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO Payroll (Employee_Id, PayPeriodStartDate, PayPeriodEndDate, basicSalary, OvertimePay, deductions, netSalary) VALUES(?,?,?,?,?,?,?)";
             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, employeeId);
             stmt.setDate(2, Date.valueOf(localStart));
@@ -105,7 +105,7 @@ public class PayrollDAO {
             payroll = new Payroll();
             if(rs.next()){
                 payroll.setPayrollID(payrollId);
-                payroll.setEmployeeID(rs.getInt("employeeId"));
+                payroll.setEmployeeID(rs.getInt("Employee_id"));
                 payroll.setPayPeriodStartDate(rs.getDate("PayPeriodStartDate"));
                 payroll.setPayPeriodEndDate(rs.getDate("PayPeriodEndDate"));
                 payroll.setBasicSalary(rs.getDouble("BasicSalary"));
@@ -140,7 +140,7 @@ public class PayrollDAO {
         List<Payroll> payrolls = new ArrayList<>();
         try{
 
-            String sql = "Select * from Payroll WHERE EmployeeId = ?";
+            String sql = "Select * from Payroll WHERE Employee_Id = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, employeeId);
             ResultSet rs = stmt.executeQuery();
@@ -189,7 +189,7 @@ public class PayrollDAO {
             payroll = new Payroll();
             while(rs.next()){
                 payroll.setPayrollID(rs.getInt("PayrollId"));
-                payroll.setEmployeeID(rs.getInt("EmployeeId"));
+                payroll.setEmployeeID(rs.getInt("Employee_id"));
                 payroll.setBasicSalary(rs.getDouble("BasicSalary"));
                 payroll.setPayPeriodStartDate(rs.getDate("PayPeriodStartDate"));
                 payroll.setPayPeriodEndDate(rs.getDate("PayPeriodEndDate"));

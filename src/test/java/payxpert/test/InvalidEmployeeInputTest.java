@@ -26,7 +26,7 @@ class InvalidEmployeeInputTest {
         empp.setLastName("User");
         empp.setEmail("invalid-email");
 
-        empp.setPhoneNumber(1234567890); // Required field
+        empp.setPhoneNumber("1234567890"); // Required field
         empp.setGender("Male");
         empp.setAddress("Some Address");
         empp.setPosition("Tester");

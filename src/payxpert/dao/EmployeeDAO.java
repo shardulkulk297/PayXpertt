@@ -32,7 +32,7 @@ public class EmployeeDAO {
 
         try{
 
-            String query = "Select * from Employees WHERE EmployeeID = ?";
+            String query = "Select * from Employee WHERE EmployeeID = ?";
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setInt(1, employeeId);
             ResultSet rs = stmt.executeQuery();
@@ -40,10 +40,17 @@ public class EmployeeDAO {
             if(rs.next())
             {
                 emp = new Employee();
-                emp.setEmployeeId(rs.getInt("employeeId"));
+                emp.setEmployeeId(rs.getInt("EmployeeId"));
                 emp.setFirstName(rs.getString("FirstName"));
                 emp.setLastName(rs.getString("LastName"));
-                emp.setPhoneNumber(rs.getInt("Phonenumber"));
+                emp.setEmail(rs.getString("Email"));
+                emp.setDateOfBirth(rs.getDate("DateOfBirth"));
+                emp.setGender(rs.getString("Gender"));
+                emp.setPhoneNumber(rs.getString("PhoneNumber"));
+                emp.setAddress(rs.getString("Address"));
+                emp.setPosition(rs.getString("Position"));
+                emp.setJoiningDate(rs.getDate("JoiningDate"));
+                emp.setTerminationDate(rs.getDate("TerminationDate"));
 
             }
             else{
@@ -81,7 +88,12 @@ public class EmployeeDAO {
                 emp.setLastName(rs.getString("LastName"));
                 emp.setEmail(rs.getString("Email"));
                 emp.setDateOfBirth(rs.getDate("DateOfBirth"));
-                emp.setPhoneNumber(rs.getInt("PhoneNumber"));
+                emp.setGender(rs.getString("Gender"));
+                emp.setPhoneNumber(rs.getString("PhoneNumber"));
+                emp.setAddress(rs.getString("Address"));
+                emp.setPosition(rs.getString("Position"));
+                emp.setJoiningDate(rs.getDate("JoiningDate"));
+                emp.setTerminationDate(rs.getDate("TerminationDate"));
 
                 employees.add(emp);
             }
@@ -151,7 +163,7 @@ public class EmployeeDAO {
             stmt.setDate(3, new Date(EmployeeData.getDateOfBirth().getTime()));
             stmt.setString(4, EmployeeData.getGender());
             stmt.setString(5, EmployeeData.getEmail());
-            stmt.setInt(6, EmployeeData.getPhoneNumber());
+            stmt.setString(6, EmployeeData.getPhoneNumber());
             stmt.setString(7, EmployeeData.getAddress());
             stmt.setString(8, EmployeeData.getPosition());
             stmt.setDate(9, new Date(EmployeeData.getJoiningDate().getTime()));
@@ -192,7 +204,7 @@ public class EmployeeDAO {
             stmt.setDate(3, new java.sql.Date(employeeData.getDateOfBirth().getTime()));
             stmt.setString(4, employeeData.getGender());
             stmt.setString(5, employeeData.getEmail());
-            stmt.setInt(6, employeeData.getPhoneNumber());
+            stmt.setString(6, employeeData.getPhoneNumber());
             stmt.setString(7, employeeData.getAddress());
             stmt.setString(8, employeeData.getPosition());
             stmt.setDate(9, new java.sql.Date(employeeData.getJoiningDate().getTime()));

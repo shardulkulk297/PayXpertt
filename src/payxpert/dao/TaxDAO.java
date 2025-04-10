@@ -35,8 +35,10 @@ public class TaxDAO {
         try{
 
 
-            String sql = "Select * from Payroll WHERE EmployeeId = ? AND YEAR(PayPeriodStartDate) = ?";
+            String sql = "Select * from Payroll WHERE Employee_Id = ? AND YEAR(PayPeriodStartDate) = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, employeeId);
+            stmt.setInt(2, taxYear);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
                 double basicSalary = rs.getDouble("BasicSalary");
@@ -48,15 +50,15 @@ public class TaxDAO {
             }
             taxAmount = taxableIncome * 0.10;
 
-            String mainsql = "INSERT INTO Tax (employeeID, taxYear, taxableIncome, taxAmount) VALUES( ?, ?, ?, ?)";
+            String mainsql = "INSERT INTO Tax (EmployeeId, taxYear, taxableIncome, taxAmount) VALUES( ?, ?, ?, ?)";
             PreparedStatement stmt2 = con.prepareStatement(mainsql);
-            stmt.setInt(1, employeeId);
-            stmt.setInt(2, taxYear);
-            stmt.setDouble(3, taxableIncome);
-            stmt.setDouble(4, taxAmount);
+            stmt2.setInt(1, employeeId);
+            stmt2.setInt(2, taxYear);
+            stmt2.setDouble(3, taxableIncome);
+            stmt2.setDouble(4, taxAmount);
 
-            int rowsAdded = stmt.executeUpdate();
-            if(rowsAdded == 0){
+            int rowsAdded = stmt2.executeUpdate();
+            if(rowsAdded > 0){
                 System.out.println("Calculated TAX Successfully, TaxAmount is: " + taxAmount );
             }
             else{

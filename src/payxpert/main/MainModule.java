@@ -6,7 +6,10 @@ import payxpert.dao.PayrollService;
 import payxpert.dao.TaxService;
 import payxpert.exception.*;
 import payxpert.model.Employee;
+import payxpert.model.FinancialRecord;
 import payxpert.model.Payroll;
+import payxpert.model.Tax;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -48,69 +51,173 @@ public class MainModule {
             System.out.println("Enter your option:");
             Scanner sc = new Scanner(System.in);
             int option = sc.nextInt();
+            sc.nextLine();
             switch(option){
                 case 1->{
 
-                    Date dob = ConvertDate(2003, 07, 29);
-                    Date JoiningDate = ConvertDate(2025, 06, 15);
+                    try {
+                        System.out.print("Enter First Name: ");
+                        String firstName = sc.nextLine();
 
-                    Employee employeeData = new Employee(
-                            "Shardul",
-                            "Kulkarni",
-                            dob,
-                            "Male",
-                            "shardulkulk297@gmail.com",
-                            986786756,
-                            "Kurundwad",
-                            "FullStack",
-                            JoiningDate,
-                            null
-                    );
+                        System.out.print("Enter Last Name: ");
+                        String lastName = sc.nextLine();
 
 
+                        System.out.println("Enter Date of Birth:");
+                        System.out.print("Year: ");
+                        int birthYear = sc.nextInt();
+                        System.out.print("Month: ");
+                        int birthMonth = sc.nextInt();
+                        System.out.print("Day: ");
+                        int birthDay = sc.nextInt();
+                        Date dob = ConvertDate(birthYear, birthMonth, birthDay);
+                        sc.nextLine();
 
+                        System.out.print("Enter Gender (Male/Female): ");
+                        String gender = sc.nextLine();
 
-                    EmployeeService emp = new EmployeeService();
-                    try{
+                        System.out.print("Enter Email: ");
+                        String email = sc.nextLine();
+
+                        System.out.print("Enter Phone Number: ");
+                        String phone = sc.next();
+                        sc.nextLine();
+
+                        System.out.print("Enter Address: ");
+                        String address = sc.nextLine();
+
+                        System.out.print("Enter Position: ");
+                        String position = sc.nextLine();
+
+                        System.out.println("Enter Joining Date:");
+                        System.out.print("Year: ");
+                        int joinYear = sc.nextInt();
+                        System.out.print("Month: ");
+                        int joinMonth = sc.nextInt();
+                        System.out.print("Day: ");
+                        int joinDay = sc.nextInt();
+                        Date joiningDate = ConvertDate(joinYear, joinMonth, joinDay);
+
+                        sc.nextLine();
+                        System.out.print("Is Termination Date available? (yes/no): ");
+                        String hasTermination = sc.nextLine();
+                        Date terminationDate = null;
+                        if (hasTermination.equalsIgnoreCase("yes")) {
+                            System.out.println("Enter Termination Date:");
+                            System.out.print("Year: ");
+                            int termYear = sc.nextInt();
+                            System.out.print("Month: ");
+                            int termMonth = sc.nextInt();
+                            System.out.print("Day: ");
+                            int termDay = sc.nextInt();
+                            terminationDate = ConvertDate(termYear, termMonth, termDay);
+                        }
+                        Employee employeeData = new Employee(
+                                firstName,
+                                lastName,
+                                dob,
+                                gender,
+                                email,
+                                phone,
+                                address,
+                                position,
+                                joiningDate,
+                                terminationDate
+                        );
+                        EmployeeService emp = new EmployeeService();
                         emp.AddEmployee(employeeData);
-                    }
-                    catch(EmployeeNotFoundException e){
-                          System.out.println(e.getMessage());
-                    }
 
-
+                    } catch (EmployeeNotFoundException | InvalidInputException e) {
+                        System.out.println("ERROR: " + e.getMessage());
+                    }
                 }
                 case 2->{
 
-                    System.out.println("Enter employeeId of employee you want to update:");
-                    int empId = sc.nextInt();
+                    try {
+                        System.out.print("Enter Employee ID to update: ");
+                        int empId = sc.nextInt();
+                        sc.nextLine();
 
-                    Date dob = ConvertDate(2003, 07, 29);
-                    Date JoiningDate = ConvertDate(2025, 05, 15);
+                        System.out.print("Enter First Name: ");
+                        String firstName = sc.nextLine();
 
-                    Employee employeeData = new Employee(
-                            "Shardul",
-                            "Kulkarni",
-                            dob,
-                            "Male",
-                            "shardulkulk297@gmail.com",
-                            988767786, //updated phone number
-                            "Kurundwad",
-                            "FullStack Developer", //updating position
-                            JoiningDate, //updating date
-                            null
-                    );
-                    employeeData.setEmployeeId(empId);
+                        System.out.print("Enter Last Name: ");
+                        String lastName = sc.nextLine();
 
-                    EmployeeService emp = new EmployeeService();
-                    try{
-                        emp.UpdateEmployee(employeeData);
+                        System.out.println("Enter Date of Birth:");
+                        System.out.print("Year: ");
+                        int birthYear = sc.nextInt();
+                        System.out.print("Month: ");
+                        int birthMonth = sc.nextInt();
+                        System.out.print("Day: ");
+                        int birthDay = sc.nextInt();
+                        Date dob = ConvertDate(birthYear, birthMonth, birthDay);
+                        sc.nextLine();
 
+                        System.out.print("Enter Gender (Male/Female): ");
+                        String gender = sc.nextLine();
+
+                        System.out.print("Enter Email: ");
+                        String email = sc.nextLine();
+
+                        System.out.print("Enter Phone Number (10 digits): ");
+                        String phoneStr = sc.next();
+
+                        System.out.print("Enter Address: ");
+                        String address = sc.nextLine();
+
+                        System.out.print("Enter Position: ");
+                        String position = sc.nextLine();
+
+                        System.out.println("Enter Joining Date:");
+                        System.out.print("Year: ");
+                        int joinYear = sc.nextInt();
+                        System.out.print("Month: ");
+                        int joinMonth = sc.nextInt();
+                        System.out.print("Day: ");
+                        int joinDay = sc.nextInt();
+                        Date joiningDate = ConvertDate(joinYear, joinMonth, joinDay);
+                        sc.nextLine();
+
+                        System.out.print("Does the employee have a termination date? (yes/no): ");
+                        String hasTermination = sc.nextLine();
+                        Date terminationDate = null;
+                        if (hasTermination.equalsIgnoreCase("yes")) {
+                            System.out.println("Enter Termination Date:");
+                            System.out.print("Year: ");
+                            int termYear = sc.nextInt();
+                            System.out.print("Month: ");
+                            int termMonth = sc.nextInt();
+                            System.out.print("Day: ");
+                            int termDay = sc.nextInt();
+                            terminationDate = ConvertDate(termYear, termMonth, termDay);
+                        }
+
+                        Employee employeeData = new Employee(
+                                firstName,
+                                lastName,
+                                dob,
+                                gender,
+                                email,
+                                phoneStr,
+                                address,
+                                position,
+                                joiningDate,
+                                terminationDate
+                        );
+                        employeeData.setEmployeeId(empId);
+
+                        EmployeeService empService = new EmployeeService();
+                        empService.UpdateEmployee(employeeData);
+
+                    } catch (EmployeeNotFoundException e) {
+                        System.out.println("Error: " + e.getMessage());
+                    } catch (Exception e) {
+                        System.out.println("Something went wrong: " + e.getMessage());
+                        e.printStackTrace();
                     }
-                    catch(EmployeeNotFoundException e){
-                          System.out.println(e.getMessage());
-                    }
 
+                    sc.close();
                 }
 
                 case 3->{
@@ -202,6 +309,7 @@ public class MainModule {
                     try{
                         Payroll payroll = null;
                         payroll = pay.GetPayrollById(payrollId);
+                        System.out.println(payroll);
                     }
                     catch(PayrollGenerationException e){
                           System.out.println(e.getMessage());
@@ -217,7 +325,9 @@ public class MainModule {
                     try{
                         List<Payroll> payrolls = new ArrayList<>();
                         payrolls = pay.GetPayrollsForEmployee(empId);
-                        System.out.println(payrolls);
+                        for(Payroll p: payrolls){
+                            System.out.println(p);
+                        }
                     }
                     catch(PayrollGenerationException e){
                           System.out.println(e.getMessage());
@@ -246,7 +356,10 @@ public class MainModule {
                     try{
                         List<Payroll> payrolls = new ArrayList<>();
                         payrolls = pay.GetPayrollsForPeriod(startDate, endDate);
-                        System.out.println(payrolls);
+
+                        for(Payroll p: payrolls){
+                            System.out.println(p);
+                        }
                     }
                     catch(PayrollGenerationException e){
                           System.out.println(e.getMessage());
@@ -262,7 +375,9 @@ public class MainModule {
                     int year = sc.nextInt();
                     TaxService tax = new TaxService();
                     try{
-                        tax.CalculateTax(empId, year);
+                       double taxI = tax.CalculateTax(empId, year);
+
+                        System.out.println("Taxable Income: " + taxI);
                     }
                     catch(TaxCalculationException t){
                         System.out.println(t.getMessage());
@@ -273,7 +388,8 @@ public class MainModule {
                     int taxId = sc.nextInt();
                     TaxService tax = new TaxService();
                     try{
-                        tax.GetTaxById(taxId);
+                        Tax taxx = tax.GetTaxById(taxId);
+                        System.out.println(taxx);
 
                     }
                     catch(TaxCalculationException t){
@@ -286,7 +402,10 @@ public class MainModule {
                     int empId = sc.nextInt();
                     TaxService tax = new TaxService();
                     try{
-                        tax.GetTaxesForEmployee(empId);
+                      List<Tax> taxes = tax.GetTaxesForEmployee(empId);
+                      for(Tax t: taxes){
+                          System.out.println(t);
+                      }
 
                     }
                     catch(TaxCalculationException t){
@@ -298,7 +417,11 @@ public class MainModule {
                     int year = sc.nextInt();
                     TaxService tax = new TaxService();
                     try{
-                        tax.GetTaxesForYear(year);
+                       List<Tax> taxes = tax.GetTaxesForYear(year);
+
+                       for(Tax t: taxes){
+                           System.out.println(t);
+                       }
 
                     }
                     catch(TaxCalculationException t){
@@ -309,12 +432,14 @@ public class MainModule {
                     System.out.println("Add new financial Record");
                     System.out.println("Enter employeeId: ");
                     int empId = sc.nextInt();
-                    System.out.println("Enter Descritpion: ");
-                    String desc = sc.next();
+                    sc.nextLine();
+                    System.out.println("Enter Description: ");
+                    String desc = sc.nextLine();
                     System.out.println("Enter Amount: ");
-                    Double amount = sc.nextDouble();
+                    double amount = sc.nextDouble();
+                    sc.nextLine();
                     System.out.println("Enter Record Type: ");
-                    String recordType = sc.next();
+                    String recordType = sc.nextLine();
 
                     FinancialRecordService fin = new FinancialRecordService();
                     try{
@@ -332,7 +457,7 @@ public class MainModule {
 
                     FinancialRecordService fin = new FinancialRecordService();
                     try{
-                        fin.GetFinancialRecordById(recordID);
+                        System.out.println(fin.GetFinancialRecordById(recordID));
                     }
                     catch(FinancialRecordException f)
                     {
@@ -345,7 +470,11 @@ public class MainModule {
 
                     FinancialRecordService fin = new FinancialRecordService();
                     try{
-                        fin.GetFinancialRecordsForEmployees(empId);
+                        List<FinancialRecord> records = fin.GetFinancialRecordsForEmployees(empId);
+                        for(FinancialRecord f: records)
+                        {
+                            System.out.println(f);
+                        }
                     }
                     catch(FinancialRecordException f)
                     {
@@ -365,7 +494,11 @@ public class MainModule {
 
                     FinancialRecordService fin = new FinancialRecordService();
                     try{
-                        fin.GetFinancialRecordsForDate(recordDate);
+                      List<FinancialRecord> records =  fin.GetFinancialRecordsForDate(recordDate);
+                      for(FinancialRecord f: records)
+                      {
+                          System.out.println(f);
+                      }
 
                     }
                     catch(FinancialRecordException f)

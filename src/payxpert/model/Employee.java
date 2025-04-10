@@ -12,7 +12,7 @@ public class Employee {
     private Date DateOfBirth;
     private String Gender;
     private String Email;
-    private int PhoneNumber;
+    private String PhoneNumber;
     private String Address;
     private String Position;
     private Date JoiningDate;
@@ -20,7 +20,7 @@ public class Employee {
 
     public Employee(){}
     public Employee(String firstName, String lastName, Date dateOfBirth,
-                    String gender, String email, int phoneNumber, String address,
+                    String gender, String email, String phoneNumber, String address,
                     String position, Date joiningDate, Date terminationDate) {
         this.FirstName = firstName;
         this.LastName = lastName;
@@ -53,7 +53,7 @@ public class Employee {
     public String getEmail(){
         return Email;
     }
-    public int getPhoneNumber(){
+    public String getPhoneNumber(){
         return PhoneNumber;
     }
 
@@ -95,7 +95,7 @@ public class Employee {
         this.Email = Email;
     }
 
-    public void setPhoneNumber(int PhoneNumber){
+    public void setPhoneNumber(String PhoneNumber){
         this.PhoneNumber = PhoneNumber;
     }
 
