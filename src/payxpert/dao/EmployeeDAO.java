@@ -1,6 +1,7 @@
 package payxpert.dao;
 
 import payxpert.exception.EmployeeNotFoundException;
+import payxpert.exception.InvalidInputException;
 import payxpert.model.Employee;
 import payxpert.util.DBConnection;
 
@@ -95,9 +96,50 @@ public class EmployeeDAO {
         return employees;
 
     }
-    public void AddEmployee(Employee EmployeeData) throws EmployeeNotFoundException {
-        if(EmployeeData == null){
-            throw new EmployeeNotFoundException("No Data Found");
+    public void AddEmployee(Employee EmployeeData) throws EmployeeNotFoundException, InvalidInputException {
+        if (EmployeeData == null) {
+            throw new InvalidInputException("No employee data provided");
+        }
+
+        if (EmployeeData.getFirstName() == null || EmployeeData.getFirstName().trim().isEmpty()) {
+            throw new InvalidInputException("First name is required");
+        }
+
+
+        if (EmployeeData.getLastName() == null || EmployeeData.getLastName().trim().isEmpty()) {
+            throw new InvalidInputException("Last name is required");
+        }
+
+        if (EmployeeData.getDateOfBirth() == null) {
+            throw new InvalidInputException("Date of birth is required");
+        }
+
+
+        if (EmployeeData.getGender() == null || EmployeeData.getGender().trim().isEmpty()) {
+            throw new InvalidInputException("Gender is required");
+        }
+
+
+        if (EmployeeData.getEmail() == null || !EmployeeData.getEmail().matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+            throw new InvalidInputException("Invalid email format");
+        }
+
+
+        if (String.valueOf(EmployeeData.getPhoneNumber()).length() != 10) {
+            throw new InvalidInputException("Phone number must be 10 digits");
+        }
+
+        if (EmployeeData.getAddress() == null || EmployeeData.getAddress().trim().isEmpty()) {
+            throw new InvalidInputException("Address is required");
+        }
+
+
+        if (EmployeeData.getPosition() == null || EmployeeData.getPosition().trim().isEmpty()) {
+            throw new InvalidInputException("Position is required");
+        }
+
+        if (EmployeeData.getJoiningDate() == null) {
+            throw new InvalidInputException("Joining date is required");
         }
 
         try{
