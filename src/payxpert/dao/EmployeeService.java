@@ -30,7 +30,7 @@ public class EmployeeService implements IEmployeeService {
 
     }
     @Override
-    public void UpdateEmployee(Employee employeeData) throws EmployeeNotFoundException {
+    public void UpdateEmployee(Employee employeeData) throws EmployeeNotFoundException, InvalidInputException {
         employeeDAO.UpdateEmployee(employeeData);
 
     }

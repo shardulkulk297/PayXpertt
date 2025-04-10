@@ -10,6 +10,6 @@ public interface IEmployeeService {
 
     List<Employee> GetAllEmployees() throws EmployeeNotFoundException;
     void AddEmployee(Employee employeeData) throws EmployeeNotFoundException, InvalidInputException;
-    void UpdateEmployee(Employee employeeData) throws EmployeeNotFoundException;
+    void UpdateEmployee(Employee employeeData) throws EmployeeNotFoundException, InvalidInputException;
     void RemoveEmployee(int employeeId) throws EmployeeNotFoundException;
 }
