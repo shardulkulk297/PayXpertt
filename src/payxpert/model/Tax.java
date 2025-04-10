@@ -60,4 +60,15 @@ public class Tax {
     public void setTaxAmount(double taxAmount) {
         this.taxAmount = taxAmount;
     }
+
+    @Override
+    public String toString(){
+        return "Tax {" +
+                "TaxID = " + taxID +
+                ", EmployeeId = " + employeeID +
+                ", TaxYear = " + taxYear +
+                ", Taxable Income = " + taxableIncome +
+                ", TaxAmount = " + taxAmount +
+                '}';
+    }
 }

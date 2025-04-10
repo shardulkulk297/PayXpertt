@@ -22,7 +22,7 @@ public class PayrollService implements IPayrollService {
         double deductions = basicSalary * 0.10;
         double netSalary = basicSalary + OvertimePay - deductions;
 
-        return payrolldao.GeneratePayroll(employeeId, localStart, localEnd, basicSalary, deductions, netSalary);
+        return payrolldao.GeneratePayroll(employeeId, localStart, localEnd, basicSalary, OvertimePay, deductions, netSalary);
 
     }
     @Override

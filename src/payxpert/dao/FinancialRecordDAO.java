@@ -1,6 +1,5 @@
 package payxpert.dao;
 
-import jdk.jfr.Description;
 import payxpert.exception.FinancialRecordException;
 import payxpert.model.FinancialRecord;
 import payxpert.util.DBConnection;
@@ -46,7 +45,7 @@ public class FinancialRecordDAO {
             throw new IllegalArgumentException("Record type must be 'income' or 'expense'");
         }
 
-        // Normalize record type (optional)
+        //Normalizing Record Types
         recordType = recordType.toLowerCase();
 
         try{
@@ -81,8 +80,8 @@ public class FinancialRecordDAO {
 
     public FinancialRecord GetFinancialRecordById(int recordId) throws FinancialRecordException{
 
-        if(recordId == 0){
-            throw new FinancialRecordException("NO RECORD FOUND FOR THE ID: " + recordId);
+        if(recordId == 0 || recordId < 0){
+            throw new FinancialRecordException("Record Id Can't be 0 OR Negative");
         }
         FinancialRecord record = null;
         try{
@@ -116,8 +115,8 @@ public class FinancialRecordDAO {
 
     }
     public List<FinancialRecord> GetFinancialRecordsForEmployees(int EmployeeId) throws FinancialRecordException{
-        if(EmployeeId == 0){
-            throw new FinancialRecordException("NO RECORD FOUND FOR THE ID: " + EmployeeId);
+        if(EmployeeId == 0 || EmployeeId < 0){
+            throw new FinancialRecordException("EmployeeId can't be 0 OR Negative");
         }
 
         FinancialRecord record = null;

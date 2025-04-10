@@ -1,6 +1,5 @@
 package payxpert.dao;
 
-import com.mysql.cj.protocol.Resultset;
 import payxpert.exception.EmployeeNotFoundException;
 import payxpert.model.Employee;
 import payxpert.util.DBConnection;
@@ -24,14 +23,14 @@ public class EmployeeDAO {
 
     public Employee GetEmployeeById(int employeeId) throws EmployeeNotFoundException {
 
-
+        if(employeeId == 0){
+            throw new EmployeeNotFoundException("Employee ID Can't be 0");
+        }
 
         Employee emp = null;
 
         try{
-            if(employeeId == 0){
-                throw new EmployeeNotFoundException("Employee ID Can't be 0");
-            }
+
             String query = "Select * from Employees WHERE EmployeeID = ?";
             PreparedStatement stmt = con.prepareStatement(query);
             stmt.setInt(1, employeeId);
@@ -66,6 +65,7 @@ public class EmployeeDAO {
     }
     public List<Employee> GetAllEmployees() throws EmployeeNotFoundException{
 
+
         List<Employee> employees = new ArrayList<>();
 
         try{
@@ -85,7 +85,7 @@ public class EmployeeDAO {
                 employees.add(emp);
             }
             if(employees.isEmpty()){
-                throw new EmployeeNotFoundException("SOMETHING WENT Wrong while getting employees");
+                throw new EmployeeNotFoundException("No Employee Records");
             }
             con.close();
 
@@ -97,7 +97,7 @@ public class EmployeeDAO {
     }
     public void AddEmployee(Employee EmployeeData) throws EmployeeNotFoundException {
         if(EmployeeData == null){
-            throw new EmployeeNotFoundException("NULL DATA");
+            throw new EmployeeNotFoundException("No Data Found");
         }
 
         try{

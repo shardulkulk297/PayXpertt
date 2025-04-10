@@ -115,6 +115,23 @@ public class Employee {
         this.TerminationDate = terminationDate;
     }
 
+    @Override
+    public String toString() {
+        return "Employee {" +
+                "EmployeeId = " + EmployeeId +
+                ", FirstName = '" + FirstName + '\'' +
+                ", LastName = '" + LastName + '\'' +
+                ", DateOfBirth = " + DateOfBirth +
+                ", Gender = '" + Gender + '\'' +
+                ", Email = '" + Email + '\'' +
+                ", PhoneNumber = " + PhoneNumber +
+                ", Address = '" + Address + '\'' +
+                ", Position = '" + Position + '\'' +
+                ", JoiningDate = " + JoiningDate +
+                ", TerminationDate = " + TerminationDate +
+                '}';
+    }
+
     public int CalculateAge(){
         if(DateOfBirth == null){
             return 0;
@@ -129,6 +146,7 @@ public class Employee {
 
 
     }
+
 
 
 

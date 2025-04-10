@@ -68,4 +68,17 @@ public class FinancialRecord {
     public void setRecordType(String recordType) {
         this.recordType = recordType;
     }
+
+    @Override
+    public String toString(){
+        return "FinancialRecord {" +
+                "RecordId = " + recordID +
+                ", EmployeeId = " + employeeID +
+                ", RecordDate = " + recordDate +
+                ", RecordType = " + recordType +
+                ", Description = " + description +
+                ", Amount = " + amount +
+                '}';
+    }
+
 }

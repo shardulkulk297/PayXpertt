@@ -1,7 +1,7 @@
 package payxpert.dao;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import payxpert.exception.PayrollGenerationException;
+import payxpert.model.Employee;
 import payxpert.model.Payroll;
 import payxpert.util.DBConnection;
 
@@ -22,18 +22,37 @@ public class PayrollDAO {
     }
 
 
-    public Payroll GeneratePayroll(int employeeId, LocalDate localStart, LocalDate localEnd, double basicSalary, double deductions, double netSalary) throws PayrollGenerationException {
+    public Payroll GeneratePayroll(int employeeId, LocalDate localStart, LocalDate localEnd, double basicSalary, double OvertimePay, double deductions, double netSalary) throws PayrollGenerationException {
+
+        if (employeeId <= 0) {
+            throw new PayrollGenerationException("Invalid employee ID.");
+        }
+        if (localStart == null || localEnd == null) {
+            throw new PayrollGenerationException("Start and end dates cannot be null.");
+        }
+        if (localEnd.isBefore(localStart)) {
+            throw new PayrollGenerationException("End date cannot be before start date.");
+        }
+        if (basicSalary < 0 || OvertimePay < 0 || deductions < 0) {
+            throw new PayrollGenerationException("Salary, overtime pay, or deductions cannot be negative.");
+        }
+        if (netSalary != (basicSalary + OvertimePay - deductions)) {
+            throw new PayrollGenerationException("Net salary mismatch. Please verify the calculation.");
+        }
+
+
         Payroll payroll = null;
         try{
 
-            String sql = "INSERT INTO Payroll (employeeId, PayPeriodStartDate, PayPeriodEndDate, basicSalary, deductions, netSalary) VALUES(?,?,?,?,?,?)";
+            String sql = "INSERT INTO Payroll (employeeId, PayPeriodStartDate, PayPeriodEndDate, basicSalary, OvertimePay, deductions, netSalary) VALUES(?,?,?,?,?,?,?)";
             PreparedStatement stmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setInt(1, employeeId);
             stmt.setDate(2, Date.valueOf(localStart));
             stmt.setDate(3, Date.valueOf(localEnd));
             stmt.setDouble(4, basicSalary);
-            stmt.setDouble(5, deductions);
-            stmt.setDouble(6, netSalary);
+            stmt.setDouble(5, OvertimePay);
+            stmt.setDouble(6, deductions);
+            stmt.setDouble(7, netSalary);
 
 
 
@@ -41,10 +60,13 @@ public class PayrollDAO {
             int rowsAdded = stmt.executeUpdate();
             ResultSet rs = stmt.getGeneratedKeys();
             if(rowsAdded > 0){
+
+                if(rs.next()){
+                    int payrollId = rs.getInt(1);
+                    payroll = new Payroll();
+                    payroll.setPayrollID(payrollId);
+                }
                 System.out.println("Payroll Generated Successfully");
-                int payrollId = rs.getInt(1);
-                payroll = new Payroll();
-                payroll.setPayrollID(payrollId);
             }
             else{
                 throw new PayrollGenerationException("SOMETHING WENT WRONG WHILE GENERATING PAYROLL");
@@ -68,6 +90,10 @@ public class PayrollDAO {
 
     public Payroll GetPayrollById(int payrollId) throws PayrollGenerationException{
 
+        if(payrollId ==0 || payrollId < 0){
+            throw new PayrollGenerationException("ID Can't be 0 OR Negative");
+        }
+
         Payroll payroll = null;
         try{
 
@@ -89,7 +115,7 @@ public class PayrollDAO {
 
             }
             else{
-                throw new PayrollGenerationException("Payroll was not able to be generated");
+                throw new PayrollGenerationException("Payroll NOT Found");
             }
             con.close();
 
@@ -105,6 +131,11 @@ public class PayrollDAO {
     }
 
     public List<Payroll> GetPayrollsForEmployee(int employeeId) throws PayrollGenerationException{
+        if(employeeId == 0 || employeeId < 0){
+            throw new PayrollGenerationException("EmployeeId can't be 0 OR Negative");
+        }
+
+
         Payroll payroll = null;
         List<Payroll> payrolls = new ArrayList<>();
         try{
@@ -126,7 +157,7 @@ public class PayrollDAO {
                 payrolls.add(payroll);
             }
             if(payrolls.isEmpty()){
-                throw new PayrollGenerationException("SOMETHING WENT WRONG");
+                throw new PayrollGenerationException("Payroll Not Found for the Employee ID: " + employeeId );
 
             }
             con.close();
@@ -140,6 +171,11 @@ public class PayrollDAO {
         return payrolls;
     }
     public List<Payroll> GetPayrollsForPeriod(java.util.Date startDate, java.util.Date endDate) throws PayrollGenerationException{
+
+        if(startDate == null && endDate == null){
+            throw new PayrollGenerationException("Dates can't be Null");
+        }
+
         Payroll payroll = null;
         List<Payroll> payrolls = new ArrayList<>();
 
@@ -164,7 +200,7 @@ public class PayrollDAO {
 
             }
             if(payrolls.isEmpty()){
-                throw new PayrollGenerationException("SOMETHING WENT WRONG");
+                throw new PayrollGenerationException("No records found for the given Date");
             }
             con.close();
 

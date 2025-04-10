@@ -1,10 +1,8 @@
 package payxpert.dao;
 
-import payxpert.exception.DatabaseConnectionException;
 import payxpert.exception.EmployeeNotFoundException;
 import payxpert.model.Employee;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class EmployeeService implements IEmployeeService {

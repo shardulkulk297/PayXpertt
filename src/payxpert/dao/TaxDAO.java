@@ -1,7 +1,5 @@
 package payxpert.dao;
 
-import com.mysql.cj.protocol.Resultset;
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import payxpert.exception.TaxCalculationException;
 import payxpert.model.Tax;
 import payxpert.util.DBConnection;
@@ -25,6 +23,11 @@ public class TaxDAO {
     }
 
     public double CalculateTax(int employeeId, int taxYear) throws TaxCalculationException {
+
+        if(employeeId == 0 || employeeId < 0 && taxYear == 0 || taxYear < 0){
+            throw new TaxCalculationException("VALUES CAN'T BE 0 OR NEGATIVE");
+        }
+
 
         Tax tax = null;
         double taxAmount = 0;
@@ -75,6 +78,11 @@ public class TaxDAO {
 
 
     public Tax GetTaxById(int taxId) throws TaxCalculationException{
+
+        if(taxId == 0 || taxId < 0){
+            throw new TaxCalculationException("Tax Id can't be 0 or negative");
+        }
+
         Tax tax = null;
         try{
 
@@ -109,6 +117,11 @@ public class TaxDAO {
 
 
     public List<Tax> GetTaxesForEmployee(int employeeId) throws TaxCalculationException{
+        if(employeeId == 0 || employeeId < 0){
+            throw new TaxCalculationException("ID Can't be 0 OR Null");
+        }
+
+
         Tax tax = null;
         List<Tax> taxes = new ArrayList<>();
         try{
@@ -146,6 +159,11 @@ public class TaxDAO {
     }
 
     public List<Tax> GetTaxesForYear(int taxYear) throws TaxCalculationException{
+
+        if(taxYear == 0 || taxYear < 0){
+            throw new TaxCalculationException("Year can't be 0 Or null");
+        }
+
         Tax tax = null;
         List<Tax> taxes = new ArrayList<>();
         try{

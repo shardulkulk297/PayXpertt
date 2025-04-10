@@ -97,4 +97,16 @@ public class Payroll {
     public void setNetSalary(double netSalary) {
         this.netSalary = netSalary;
     }
+
+    @Override
+    public String toString(){
+        return "Payroll {" +
+                "PayrollId = " + payrollID +
+                ", EmployeeId = " + employeeID +
+                ", PayPeriodStartDate = " + payPeriodStartDate +
+                ", PayPeriodEndDate = " + payPeriodEndDate +
+                ", basicSalary = " + basicSalary +
+                ", netSalary = " + netSalary +
+                '}';
+    }
 }
