@@ -32,6 +32,7 @@ public class TaxDAO {
         Tax tax = null;
         double taxAmount = 0;
         double taxableIncome = 0;
+        double totalYearlyPays = 0;
         try{
 
 
@@ -45,10 +46,18 @@ public class TaxDAO {
                 double overtimePay = rs.getDouble("OvertimePay");
                 double deductions = rs.getDouble("Deductions");
 
+                totalYearlyPays += basicSalary;
                 taxableIncome += basicSalary + overtimePay - deductions; //all the payrolls
 
             }
-            taxAmount = taxableIncome * 0.10;
+
+            if(totalYearlyPays > 50000) {
+                taxAmount = taxableIncome * 0.20;
+            } else if(totalYearlyPays > 20000) {
+                taxAmount = taxableIncome * 0.10;
+            } else {
+                taxAmount = 0.0;
+            }
 
             String mainsql = "INSERT INTO Tax (EmployeeId, taxYear, taxableIncome, taxAmount) VALUES( ?, ?, ?, ?)";
             PreparedStatement stmt2 = con.prepareStatement(mainsql);

@@ -379,9 +379,10 @@ public class MainModule {
                     int year = sc.nextInt();
                     TaxService tax = new TaxService();
                     try{
-                       double taxI = tax.CalculateTax(empId, year);
 
-                        System.out.println("Taxable Income: " + taxI);
+                        tax.CalculateTax(empId, year);
+
+
                     }
                     catch(TaxCalculationException t){
                         System.out.println(t.getMessage());
