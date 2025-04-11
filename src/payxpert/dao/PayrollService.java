@@ -12,13 +12,19 @@ import payxpert.exception.PayrollGenerationException;
 public class PayrollService implements IPayrollService {
     PayrollDAO payrolldao = new PayrollDAO();
     @Override
-    public Payroll GeneratePayroll(int employeeId, Date startDate, Date endDate) throws PayrollGenerationException {
+    public Payroll GeneratePayroll(int employeeId, Date startDate, Date endDate, double basicSalary, long OverTimeDays) throws PayrollGenerationException {
         //handling business logic of Calculating payroll
-        double basicSalary = 50000.00; //manually entering value as it is not given in case study
+        //taken input of basic salary from the user as it is not given in the caseStudy
         LocalDate localStart = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate localEnd = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
         long workingDays = ChronoUnit.DAYS.between(localStart, localEnd) + 1;
-        double OvertimePay = workingDays * 200;
+
+        if(OverTimeDays > workingDays){
+            throw new PayrollGenerationException("The working days should be within the Start date and End Date");
+        }
+
+        double OvertimePay = OverTimeDays * 200; //taken input for how many days employee has done overtime
         double deductions = basicSalary * 0.10;
         double netSalary = basicSalary + OvertimePay - deductions;
 

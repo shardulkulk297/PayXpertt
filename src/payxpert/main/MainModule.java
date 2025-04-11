@@ -288,11 +288,15 @@ public class MainModule {
                     int dayy = sc.nextInt();
                     Date startDate = ConvertDate(year, month, day);
                     Date endDate = ConvertDate(yearr, monthh, dayy);
-
+                    System.out.println("Enter Basic Salary of Employee: ");
+                    int basicSalary = sc.nextInt();
+                    sc.nextLine();
+                    System.out.println("Enter For how many days employee has done overTime (Should be within the start date and End Date):");
+                    long OverTimeDays = sc.nextLong();
                     PayrollService pay = new PayrollService();
                     try{
                         Payroll payroll = null;
-                        payroll = pay.GeneratePayroll(empId, startDate, endDate);
+                        payroll = pay.GeneratePayroll(empId, startDate, endDate, basicSalary, OverTimeDays);
                         System.out.println(payroll);
                     }
                     catch(PayrollGenerationException e)

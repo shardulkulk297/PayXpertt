@@ -44,7 +44,6 @@ class InvalidEmployeeInputTest {
     @Test
     public void testMissingRequiredFields() {
         Employee empp = new Employee(); // Missing all fields
-
         assertThrows(InvalidInputException.class, () -> {
             emp.AddEmployee(empp);
         });

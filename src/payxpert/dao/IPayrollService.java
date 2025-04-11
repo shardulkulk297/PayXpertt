@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface IPayrollService {
-    Payroll GeneratePayroll(int EmployeeId, Date startDate, Date endDate) throws PayrollGenerationException;
+    Payroll GeneratePayroll(int EmployeeId, Date startDate, Date endDate, double basicSalary, long OverTimeDays) throws PayrollGenerationException;
     Payroll GetPayrollById(int payrollId) throws PayrollGenerationException;
     List<Payroll> GetPayrollsForEmployee(int EmployeeId) throws PayrollGenerationException;
     List<Payroll> GetPayrollsForPeriod(Date startDate, Date endDate) throws PayrollGenerationException;

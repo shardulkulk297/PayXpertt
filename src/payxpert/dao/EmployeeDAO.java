@@ -110,17 +110,20 @@ public class EmployeeDAO {
 
     }
     public void AddEmployee(Employee EmployeeData) throws EmployeeNotFoundException, InvalidInputException {
-        if(ValidationService.isValidEmail(EmployeeData.getEmail())){
+        if (EmployeeData == null) {
+            throw new InvalidInputException("Invalid Input: NULL Employee");
+        }
+
+        if (!ValidationService.isValidEmployee(EmployeeData)) {
+            throw new InvalidInputException("Missing required fields");
+        }
+
+        if (!ValidationService.isValidEmail(EmployeeData.getEmail())) {
             throw new InvalidInputException("Invalid Email Format");
         }
 
-        if(ValidationService.isValidPhoneNumber(EmployeeData.getPhoneNumber()))
-        {
+        if (!ValidationService.isValidPhoneNumber(EmployeeData.getPhoneNumber())) {
             throw new InvalidInputException("Invalid Phone number");
-        }
-
-        if (ValidationService.isValidEmployee(EmployeeData)) {
-            throw new InvalidInputException("Invalid Input NULL Data");
         }
 
         try{
