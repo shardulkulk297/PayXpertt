@@ -106,6 +106,7 @@ public class Payroll {
                 ", PayPeriodStartDate = " + payPeriodStartDate +
                 ", PayPeriodEndDate = " + payPeriodEndDate +
                 ", basicSalary = " + basicSalary +
+                ", overtimePay = " + overtimePay +
                 ", netSalary = " + netSalary +
                 '}';
     }
